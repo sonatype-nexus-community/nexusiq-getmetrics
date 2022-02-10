@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class NexusiqGetmetricsApplication {
+public class NexusIQGetmetricsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(NexusiqGetmetricsApplication.class, args);
+		SpringApplication.run(NexusIQGetmetricsApplication.class, args);
 	}
 
 }

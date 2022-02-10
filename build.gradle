@@ -1,12 +1,19 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 plugins {
 	id 'org.springframework.boot' version '2.6.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'org.sonatype.gradle.plugins.scan' version '1.2.0'
 }
 
 group = 'org.sonatype.cs'
-version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
+
+def applicationname = 'nexusiq-getmetrics'
+def packagedir = "${applicationname}-${version}"
+def releasedir = "${packagedir}/${packagedir}"
+def configdir = "${packagedir}/${packagedir}/config"
 
 repositories {
 	mavenCentral()
@@ -15,8 +22,72 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	implementation 'javax.json:javax.json-api:1.0'
+	implementation 'org.apache.tomcat:tomcat-util:9.0.16'
+	implementation 'org.glassfish:javax.json:1.1'
+
+	implementation 'org.apache.tomcat:tomcat-coyote:8.0.44'
+
+	implementation 'org.apache.commons:commons-csv:1.5'
+	implementation 'com.opencsv:opencsv:5.2'
+	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+	implementation 'commons-codec:commons-codec:1.10'
+	implementation 'commons-io:commons-io:2.11.0'
+	implementation 'org.json:json:20210307'
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}
+
+nexusIQScan {
+	username = 'admin'
+	password = 'admin123'
+	serverUrl = 'http://localhost:8070'
+	applicationId = "${applicationname}"
+	stage = 'build'
+	allConfigurations = true
 }
+
+clean.doFirst {
+	delete "${packagedir}"
+	delete "${packagedir}.zip"
+}
+
+build.doFirst {
+	mkdir "${packagedir}"
+	mkdir "${releasedir}"
+	mkdir "${configdir}"
+}
+
+task copyjar (type: Copy) {
+	from 'build/libs'
+	include "${applicationname}-${version}.jar"
+	into "${releasedir}"
+}
+
+task copyrunfiles (type: Copy) {
+	from 'releasefiles'
+	include 'runapp*'
+	into "${releasedir}"
+	filter(ReplaceTokens, tokens: [APPVER: project.version])
+}
+
+task copyconfig (type: Copy) {
+	from 'src/main/resources'
+	include "application.properties"
+	into "${configdir}"
+}
+
+task packagefiles(type: Zip) {
+	from "${packagedir}"
+	archiveName "${packagedir}.zip"
+	destinationDir(file(projectDir))
+}
+
+copyjar.dependsOn bootJar
+copyrunfiles.dependsOn copyjar
+copyconfig.dependsOn copyrunfiles
+packagefiles.dependsOn copyconfig
