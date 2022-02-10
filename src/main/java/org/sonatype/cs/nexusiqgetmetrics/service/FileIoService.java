@@ -69,29 +69,6 @@ public class FileIoService {
         return;
     }
 
-    // private void deleteDirectory(String dirname){
-
-    //     Path path = Paths.get(dirname);
-
-    //     if (Files.exists(path)){
-    //         try {
-    //             Stream<Path> files = Files.walk(path);
-
-    //             files.sorted(Comparator.reverseOrder())
-    //                     .map(Path::toFile)
-    //                     .forEach(File::deleteOnExit);
-
-    //             files.close();
-    //         }
-    //         catch (IOException ex) {
-    //             ex.printStackTrace();
-    //         }
-    //     }
-
-
-    //     return;
-    // }
-    
     public void writeSuccessMetricsFile(InputStream content) throws IOException {
 	    File outputFile = new File(metricsDir + File.separator + FilenameInfo.successMetricsCsvFile);
 	    java.nio.file.Files.copy(content, outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
