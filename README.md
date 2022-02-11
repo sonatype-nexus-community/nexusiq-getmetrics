@@ -19,8 +19,28 @@ cd nexusiq-getmetrics-[releasenumber]
 
 ### Quickstart
 
+#### Default Nexus IQ setting:
+
+user = admin
+password = admin123
+server = http://localhost:8070
+period frequency = MONTH
+start month = 2021-01
+finish month = current month
+
+Edit the config/application.properties to change amy of these accordingly
+
 Run script
 ```
 sh runapp.sh
 ```
+
+#### To run it with the docker image
+Edit the config/application.properties and change the url for the IQ server
+Simply switch the commented out *iq.url* property
+Then
+```
+sh runapp-docker.sh
+```
+
 
