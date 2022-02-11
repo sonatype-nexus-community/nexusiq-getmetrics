@@ -1,5 +1,6 @@
 package org.sonatype.cs.getmetrics.reports;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.cs.getmetrics.service.CsvFileService;
@@ -14,6 +15,8 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PolicyViolations implements CsvFileService {
     private static final Logger log = LoggerFactory.getLogger(PolicyViolations.class);
@@ -25,6 +28,12 @@ public class PolicyViolations implements CsvFileService {
     public void makeCsvFile(FileIoService f, JsonReader reader) {
         log.info("Make Policy Violations Report");
 
+        List<String[]> data = getPolicyViolationsFromData(reader);
+
+        f.writeCsvFile(FilenameInfo.policyViolationsCsvFile,  data);
+    }
+
+    static List<String[]> getPolicyViolationsFromData(JsonReader reader) {
         List<String[]> data = new ArrayList<>();
         data.add(FilenameInfo.policyViolationsFileHeader);
 
@@ -52,7 +61,6 @@ public class PolicyViolations implements CsvFileService {
                     JsonArray reasons = constraintViolation.getJsonArray("reasons");
 
                     String reason = "";
-
                     if (policyName.equalsIgnoreCase("Integrity-Rating")){
                         reason = "Integrity-Rating";
                     }
@@ -68,12 +76,10 @@ public class PolicyViolations implements CsvFileService {
                 }
             }
         }
-
-        f.writeCsvFile(FilenameInfo.policyViolationsCsvFile,  data);
+        return data;
     }
 
-    private String getCVE(JsonArray reasons) {
-        String cveList = "";
+    static String getCVE(JsonArray reasons) {
         List<String> cves = new ArrayList<>();
 
         for (JsonObject reason : reasons.getValuesAs(JsonObject.class)) {
@@ -85,41 +91,42 @@ public class PolicyViolations implements CsvFileService {
             }
         }
 
-        for (String c : cves){
-            cveList = c + ":" + cveList;
+        StringBuilder cveList = new StringBuilder();
+        for (String cve : cves){
+            cveList.append(cve);
+            cveList.append(":");
         }
 
-        cveList = UtilService.removeLastChar(cveList);
-
-        return cveList;
+        return UtilService.removeLastChar(cveList.toString());
     }
 
-    private String getLicense(JsonArray reasons) {
-        String licenseList = "";
+    static String getLicense(JsonArray reasons) {
         List<String> licenses = new ArrayList<>();
 
         for (JsonObject reason : reasons.getValuesAs(JsonObject.class)) {
             String  licenseFound = reason.getString("reason");
 
-            String license = licenseFound.substring(licenseFound.indexOf("(")+1, licenseFound.indexOf(")"));
-            license = license.replaceAll("'", "");
+            Pattern pattern = Pattern.compile("^.+\'(.+)\'");
+            Matcher matcher = pattern.matcher(licenseFound);
+            matcher.find();
+            String license = matcher.group(1);
 
             if (!licenses.contains(license)){
                 licenses.add(license);
             }
         }
 
-        for (String l : licenses){
-            licenseList = l + ":" + licenseList;
+        StringBuilder licenseList = new StringBuilder();
+        for (String license : licenses){
+            licenseList.append(license);
+            licenseList.append(":");
         }
 
-        licenseList = UtilService.removeLastChar(licenseList);
-
-        return licenseList;
+        return UtilService.removeLastChar(licenseList.toString());
     }
 
     @Override
     public void makeCsvFile(FileIoService f, JsonObject reader) {
-
+        throw new NotImplementedException();
     }
 }

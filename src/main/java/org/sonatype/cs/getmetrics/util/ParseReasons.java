@@ -10,6 +10,8 @@ import java.util.List;
 
 public class ParseReasons {
 
+    private ParseReasons() {}
+
     public static String getReason(String policyName, JsonArray reasons){
 
         String reason = "";
@@ -57,7 +59,7 @@ public class ParseReasons {
             String  licenseFound = reason.getString("reason");
 
             String license = licenseFound.substring(licenseFound.indexOf("(")+1, licenseFound.indexOf(")"));
-            license = license.replaceAll("'", "");
+            license = license.replace("'", "");
 
             if (!licenses.contains(license)){
                 licenses.add(license);

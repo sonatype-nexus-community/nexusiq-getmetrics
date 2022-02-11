@@ -30,5 +30,7 @@ public class FilenameInfo {
 
     public static final String autoReleasedFromQuarantineConfigCsvFile = "autoreleased_from_quarantine_config.csv";
     public static final String[] autoReleasedFromQuarantineConfigFileHeader = {"id", "name", "autoReleaseQuarantineEnabled"};
+    
+    private FilenameInfo() { /* empty since this is a utility class */ }
 
 }

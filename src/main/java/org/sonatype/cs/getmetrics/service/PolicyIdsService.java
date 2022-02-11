@@ -19,9 +19,6 @@ public class PolicyIdsService {
     @Autowired
 	private NexusIQApiDataService nexusIQDataService;
 
-	@Autowired
-	private UtilService utilService;
-
 	private static List<String> securityPolicies = Arrays.asList("Security-Critical",
 																 "Security-High",
 																 "Security-Medium",
@@ -36,11 +33,10 @@ public class PolicyIdsService {
     public String getPolicyIdsEndpoint() throws IOException{
         JsonObject dataObj = nexusIQDataService.getData("/policies");
         String policyIds = getPolicyIds(dataObj);
-        String policyViolationsEndpoint = "/policyViolations?" + policyIds;
-        return policyViolationsEndpoint;
+        return "/policyViolations?" + policyIds;
     }
 
-    private String getPolicyIds(JsonObject obj) {
+    static String getPolicyIds(JsonObject obj) {
 		log.info("Getting policy ids");
 
 		JsonArray results = obj.getJsonArray("policies");
@@ -51,22 +47,20 @@ public class PolicyIdsService {
 			String id = result.getString("id");
 			String pname = result.getString("name");
 
-			if (this.isSecurityPolicy(pname) || this.isLicensePolicy(pname)){
+			if (isSecurityPolicy(pname) || isLicensePolicy(pname)){
 				policyIds = policyIds.concat("p=" + id + "&");
 			}
 		}
 
-		policyIds = utilService.removeLastChar(policyIds);
+		policyIds = UtilService.removeLastChar(policyIds);
 		return policyIds;
 	}
 
 	public static boolean isSecurityPolicy(String policyName){
-		final boolean contains = securityPolicies.contains(policyName);
-		return contains;
+		return securityPolicies.contains(policyName);
 	}
 
 	public static boolean isLicensePolicy(String policyName){
-		final boolean contains = licensePolicies.contains(policyName);
-		return contains;
+		return licensePolicies.contains(policyName);
 	}
 }

@@ -1,5 +1,6 @@
 package org.sonatype.cs.getmetrics.reports;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.cs.getmetrics.service.CsvFileService;
@@ -18,34 +19,19 @@ public class AutoReleasedFromQuarantineComponents implements CsvFileService {
 
     @Override
     public void makeCsvFile(FileIoService f, JsonReader reader) {
+        throw new NotImplementedException();
     }
-
-    // @Override
-    // public void makeCsvFile(FileIoService f, JsonObject dataObject) {
-    //     log.info("Making AutoReleasedFromQuarantineComponents report");
-
-    //     List<String[]> data = new ArrayList<>();
-    //     data.add(FilenameInfo.autoReleasedFromQuarantineComponentsFileHeader);
-
-    //     JsonArray results = dataObject.getJsonArray("results");
-
-    //     for (JsonObject result : results.getValuesAs(JsonObject.class)) {
-    //         String displayName = result.getString("displayName");
-    //         String repository = result.getString("repository");
-    //         String quarantineDate = result.getString("quarantineDate");
-    //         String dateCleared = result.getString("dateCleared");
-
-    //         String[] line = {displayName, repository, quarantineDate, dateCleared};
-    //         data.add(line);
-    //     }
-
-    //     f.writeCsvFile(FilenameInfo.autoReleasedFromQuarantineComponentsCsvFile,  data);
-    // }
 
     @Override
     public void makeCsvFile(FileIoService f, JsonObject dataObject) {
         log.info("Making AutoReleasedFromQuarantineComponents report");
 
+        List<String[]> data = getQuarantinedComponentsFromData(dataObject);
+
+        f.writeCsvFile(FilenameInfo.autoReleasedFromQuarantineComponentsCsvFile,  data);
+    }
+
+    static List<String[]> getQuarantinedComponentsFromData(JsonObject dataObject) {
         List<String[]> data = new ArrayList<>();
         data.add(FilenameInfo.autoReleasedFromQuarantineComponentsFileHeader);
 
@@ -53,7 +39,7 @@ public class AutoReleasedFromQuarantineComponents implements CsvFileService {
 
         for (JsonObject result : results.getValuesAs(JsonObject.class)) {
             String displayName = result.getString("displayName");
-            displayName = displayName.replaceAll(" ", "");
+            displayName = displayName.replace(" ", "");
             String repository = result.getString("repository");
             String quarantineDate = result.getString("quarantineDate");
             String dateCleared = result.getString("dateCleared", "none");
@@ -77,8 +63,6 @@ public class AutoReleasedFromQuarantineComponents implements CsvFileService {
                 }
             }
         }
-
-        f.writeCsvFile(FilenameInfo.autoReleasedFromQuarantineComponentsCsvFile,  data);
-
+        return data;
     }
 }

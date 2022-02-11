@@ -1,5 +1,6 @@
 package org.sonatype.cs.getmetrics.reports;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.cs.getmetrics.service.CsvFileService;
@@ -18,6 +19,12 @@ public class AutoReleasedFromQuarantineSummary implements CsvFileService {
     public void makeCsvFile(FileIoService f, JsonReader reader) {
         log.info("Making AutoReleasedFromQuarantineSummary report");
 
+        List<String[]> data = getQuarantinedSummaryFromData(reader);
+
+       f.writeCsvFile(FilenameInfo.autoReleasedFromQuarantineSummaryCsvFile,  data);
+    }
+
+    static List<String[]> getQuarantinedSummaryFromData(JsonReader reader) {
         List<String[]> data = new ArrayList<>();
         data.add(FilenameInfo.autoReleasedFromQuarantineSummaryFileHeader);
 
@@ -28,13 +35,12 @@ public class AutoReleasedFromQuarantineSummary implements CsvFileService {
 
         String[] line = {String.valueOf(autoReleaseQuarantineCountMTD), String.valueOf(autoReleaseQuarantineCountYTD)};
         data.add(line);
-
-       f.writeCsvFile(FilenameInfo.autoReleasedFromQuarantineSummaryCsvFile,  data);
+        return data;
     }
 
     @Override
     public void makeCsvFile(FileIoService f, JsonObject reader) {
-
+        throw new NotImplementedException();
     }
 
 }

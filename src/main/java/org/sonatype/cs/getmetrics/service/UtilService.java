@@ -11,30 +11,25 @@ import java.util.List;
 
 @Service
 public class UtilService {
-    
-    public static String removeLastChar(String s) {
-		return (s == null || s.length() == 0)
-				? null
-				: (s.substring(0, s.length() - 1));
+
+	private UtilService() {
 	}
 
-	public void writeCsvFile(String filename, List<String[]> data){
-		try {
-			BufferedWriter writer = Files.newBufferedWriter(Paths.get(filename));
+	public static String removeLastChar(String s) {
+		return (s == null || s.length() == 0) ? null : (s.substring(0, s.length() - 1));
+	}
 
-			for (String[] array : data) {
-				//log.info("- " + Arrays.toString(array));
-				writer.write(String.join(",", Arrays.asList(array)));
-				writer.newLine();
-			}
-
-			writer.close();
+	public static void writeCsvFile(String filename, List<String[]> data) throws IOException {
+		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(filename))) {
+			writeCsvDataToBufferedWriter(data, writer);
 		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
+	}
 
-		return;
+	public static void writeCsvDataToBufferedWriter(List<String[]> data, BufferedWriter writer) throws IOException {
+		for (String[] array : data) {
+			writer.write(String.join(",", Arrays.asList(array)));
+			writer.newLine();
+		}
 	}
 
 }

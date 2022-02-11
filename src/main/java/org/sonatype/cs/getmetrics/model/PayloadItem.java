@@ -1,31 +1,17 @@
 package org.sonatype.cs.getmetrics.model;
 
 public class PayloadItem {
-	private boolean exists;
     private String item;
 
     public PayloadItem() {}
 
-    public PayloadItem(String payloadItem, boolean exists) {
-        String item = payloadItem.trim();
-
-        if (item.length() > 0){
-            this.setExists(true);
-        }
-        else {
-            this.setExists(false);
-        }
-
-        this.setItem(item);
+    public PayloadItem(String payloadItem) {
+        this.setItem(payloadItem.trim());
     }
 
     public boolean isExists() {
-        return exists;
+        return this.item.length() > 0;
     } 
-
-    public void setExists(boolean exists) {
-        this.exists = exists;
-    }
 
     public String getItem() {
         return item;
