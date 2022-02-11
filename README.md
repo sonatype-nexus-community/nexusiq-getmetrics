@@ -28,7 +28,7 @@ cd nexusiq-getmetrics-[releasenumber]
 * start month = 2021-01
 * finish month = current month
 
-Edit the config/application.properties to change amy of these accordingly
+Edit the *config/application.properties* to change any of these accordingly
 
 Run script
 ```
@@ -36,9 +36,8 @@ sh runapp.sh
 ```
 
 #### To run it with the docker image
-* Edit the config/application.properties and change the url for the IQ server
+* Edit the *config/application.properties* and change the url for the IQ server
 * Simply switch the commented out *iq.url* property
-Then
 ```
 sh runapp-docker.sh
 ```
