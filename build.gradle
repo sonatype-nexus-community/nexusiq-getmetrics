@@ -81,7 +81,7 @@ task copyconfig (type: Copy) {
 	into "${configdir}"
 }
 
-task packagefiles(type: Zip) {
+task release(type: Zip) {
 	from "${packagedir}"
 	archiveName "${packagedir}.zip"
 	destinationDir(file(projectDir))
@@ -90,4 +90,4 @@ task packagefiles(type: Zip) {
 copyjar.dependsOn bootJar
 copyrunfiles.dependsOn copyjar
 copyconfig.dependsOn copyrunfiles
-packagefiles.dependsOn copyconfig
+release.dependsOn copyconfig
