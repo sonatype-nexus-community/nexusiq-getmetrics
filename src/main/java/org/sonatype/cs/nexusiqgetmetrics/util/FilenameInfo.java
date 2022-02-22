@@ -8,7 +8,7 @@ public class FilenameInfo {
     public static final String successMetricsCsvFile = "successmetrics.csv";
 
     public static final String applicationEvaluationsCsvFile = "application_evaluations.csv";
-    public static final String[] applicationEvaluationsFileHeader = {"applicationName", "avaluationDate", "stage"};
+    public static final String[] applicationEvaluationsFileHeader = {"applicationName", "evaluationDate", "stage"};
 
     public static final String policyViolationsCsvFile = "policy_violations.csv";
     public static final String[] policyViolationsFileHeader = {"policyName", "reason", "applicationName", "openTime", "component", "stage", "threatLevel"};
@@ -20,7 +20,7 @@ public class FilenameInfo {
     public static final String[] quarantinedComponentsFileHeader = {"packageUrl", "repository", "quarantineDate"};
 
     public static final String quarantinedComponentsSummaryCsvFile = "quarantined_components_summary.csv";
-    public static final String[] quarantinedComponentsSummaryFileHeader = {"repositoryCount", "quarantineEnabledCount", "quarantine nabled", "totalComponentCount", "quarantinedComponentCount"};
+    public static final String[] quarantinedComponentsSummaryFileHeader = {"repositoryCount", "quarantineEnabledCount", "quarantineEnabled", "totalComponentCount", "quarantinedComponentCount"};
 
     public static final String autoReleasedFromQuarantineComponentsCsvFile = "autoreleased_from_quarantine_components.csv";
     public static final String[] autoReleasedFromQuarantineComponentsFileHeader = {"displayName", "repository", "quarantineDate", "dateCleared"};
