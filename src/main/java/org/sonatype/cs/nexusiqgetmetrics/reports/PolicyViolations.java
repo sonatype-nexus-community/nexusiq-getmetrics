@@ -6,7 +6,7 @@ import org.sonatype.cs.nexusiqgetmetrics.service.CsvFileService;
 import org.sonatype.cs.nexusiqgetmetrics.service.FileIoService;
 import org.sonatype.cs.nexusiqgetmetrics.service.PolicyIdsService;
 import org.sonatype.cs.nexusiqgetmetrics.util.FilenameInfo;
-import org.sonatype.cs.nexusiqgetmetrics.util.UtilService;
+import org.sonatype.cs.nexusiqgetmetrics.service.UtilService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.json.JsonArray;

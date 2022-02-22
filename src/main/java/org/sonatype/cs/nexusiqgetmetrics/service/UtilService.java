@@ -1,4 +1,4 @@
-package org.sonatype.cs.nexusiqgetmetrics.util;
+package org.sonatype.cs.nexusiqgetmetrics.service;
 
 import org.springframework.stereotype.Service;
 

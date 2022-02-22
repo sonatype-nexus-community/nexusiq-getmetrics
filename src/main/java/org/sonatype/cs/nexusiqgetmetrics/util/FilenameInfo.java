@@ -17,13 +17,13 @@ public class FilenameInfo {
     public static final String[] waiversFileHeader = {"applicationName", "stage", "packageUrl", "policyName", "threatLevel", "comment", "createDate", "expiryTime"};
 
     public static final String quarantinedComponentsCsvFile = "quarantined_components.csv";
-    public static final String[] quarantinedComponentsFileHeader = {"packageUrl", "repository", "quarantineDate"};
+    public static final String[] quarantinedComponentsFileHeader = {"repository", "quarantineDate", "dateCleared", "displayName", "format", "quarantined", "policyName", "threatLevel", "reason"};
 
     public static final String quarantinedComponentsSummaryCsvFile = "quarantined_components_summary.csv";
     public static final String[] quarantinedComponentsSummaryFileHeader = {"repositoryCount", "quarantineEnabledCount", "quarantineEnabled", "totalComponentCount", "quarantinedComponentCount"};
 
     public static final String autoReleasedFromQuarantineComponentsCsvFile = "autoreleased_from_quarantine_components.csv";
-    public static final String[] autoReleasedFromQuarantineComponentsFileHeader = {"displayName", "repository", "quarantineDate", "dateCleared"};
+    public static final String[] autoReleasedFromQuarantineComponentsFileHeader = {"repository", "quarantineDate", "dateCleared", "displayName", "format", "quarantined", "policyName", "threatLevel", "reason"};
 
     public static final String autoReleasedFromQuarantineSummaryCsvFile = "autoreleased_from_quarantine_components_summary.csv";
     public static final String[] autoReleasedFromQuarantineSummaryFileHeader = {"MTD", "YTD"};
