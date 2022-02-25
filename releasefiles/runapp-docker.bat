@@ -3,6 +3,6 @@
 set workdir=%cd%
 metricsdir=%workdir%/iqmetrics
 
-docker run --rm -it -v %workdir%:/config -v %metricsdir%:/iqmetrics ghcr.io/sonatype-nexus-community/nexusiq-getmetrics:@APPVER@
+docker run --rm -it -v %workdir%:/config -v %metricsdir%:/iqmetrics ghcr.io/sonatype-nexus-community/getmetrics:@APPVER@
 
 

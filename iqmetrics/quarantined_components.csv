@@ -1,5 +1,5 @@
 repository,quarantineDate,dateCleared,displayName,format,quarantined,policyName,threatLevel,reason
-maven-central-fw,2021-10-13T11:11:43.500+0000,N/A,com.sonatype.clm:clm-maven-plugin:2.19.0-01,maven,true,License-Not-Provided,9,
+maven-central-fw,2021-10-13T11:11:43.500+0000,N/A,com.sonatype.clm:clm-maven-plugin:2.19.0-01,maven,true,Security-Critical,9,CVE-2021-22060
 maven-central-fw,2021-10-13T11:11:43.500+0000,N/A,com.sonatype.clm:clm-maven-plugin:2.19.0-01,maven,true,License-Banned,10,Proprietary-Clause
 maven-central-fw,2021-10-13T11:11:46.325+0000,N/A,com.sonatype.clm:clm-maven-plugin:2.18.0-01,maven,true,License-Not-Provided,9,
 maven-central-fw,2021-10-13T11:11:46.325+0000,N/A,com.sonatype.clm:clm-maven-plugin:2.18.0-01,maven,true,License-Banned,10,Proprietary-Clause

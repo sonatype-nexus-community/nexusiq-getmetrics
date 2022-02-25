@@ -1,3 +1,3 @@
 
-java -jar nexusiq-getmetrics-@APPVER@.jar
+java -jar getmetrics-@APPVER@.jar
 

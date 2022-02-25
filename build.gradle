@@ -10,7 +10,7 @@ plugins {
 group = 'org.sonatype.cs'
 sourceCompatibility = '1.8'
 
-def applicationname = 'nexusiq-getmetrics'
+def applicationname = 'getmetrics'
 def packagedir = "${applicationname}-${version}"
 def releasedir = "${packagedir}/${packagedir}"
 def configdir = "${packagedir}/${packagedir}/config"
