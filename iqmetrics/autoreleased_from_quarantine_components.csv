@@ -1,2 +1,0 @@
-repository,quarantineDate,dateCleared,displayName,format,quarantined,policyName,threatLevel,reason
-maven-central-fw,2021-11-18T17:40:38.953+0000,N/A,org.apache.maven.plugins:maven-jar-plugin:2.4,maven,true,License-Banned,10,Apache-2.0
