@@ -1,4 +1,4 @@
-# nexusiq-getmetrics
+# getmetrics
 ![Coverage](.github/badges/jacoco.svg)
 
 ## Getting Started
@@ -7,48 +7,63 @@
   * Java 8+
 
 ### Download the app 
-  * There are two ways to run this application, by directly running the application jar file (Option A) or with the application docker image (Option B)
-  * In both cases, start by downloading the zip file. To do so, go to the Releases pane on the right side of this page and click on the latest release
-  * Click on the *nexusiq-getmetrics-[releasenumber].zip* file on the assets page to download it
+  * There are two ways to run this application, directly running the application jar file (Option A) or with the application docker image (Option B)
+  * In both cases, start by downloading the release zip file. To do so, go to the Releases pane on the right side of this page and click on the latest release
+  * Click on the *getmetrics-[releasenumber].zip* file on the assets page to download it
   * Unzip the contents into a directory of your choice
-  * Change into the *nexusiq-getmetrics-[releasenumber]* directory (this will be your working directory)
+  * Change into the *getmetrics-[releasenumber]* directory (this will be your working directory)
 
 ```
-unzip nexusiq-getmetrics-[releasenumber].zip
-cd nexusiq-getmetrics-[releasenumber]
+unzip getmetrics-[releasenumber].zip
+cd getmetrics-[releasenumber]
 ```
 
 ### Quickstart
 
-#### Default Nexus IQ setting:
+#### Generating the *successmetrics.csv* file
 
-* user = admin
-* password = admin123
-* server = http://localhost:8070
-* period frequency = MONTH
-* start month = 2021-01
-* finish month = current month
-* all organisations and appplications
+Edit the *config/application.properties* to set your Nexus IQ server URL and credentials
 
-Edit the *config/application.properties* to change any of these accordingly
+The default settings are:
 
-Run script
+* iq.user = admin
+* iq.password = admin123
+* iq.url = http://localhost:8070
+
+##### Option A (Run with jar file)
+
+
+Run script to generate the file
 ```
-sh runapp.sh
-```
-
-#### To run it with the docker image
-* Edit the *config/application.properties* and change the url for the IQ server
-* Simply switch the commented out *iq.url* property
-```
-sh runapp-docker.sh
+runapp.bat (Windows)
+sh runapp.bat (Linux)
 ```
 
-### Selecting Organisations and Applications
+##### Option B (Run with docker image)
+* Additionally, edit the *config/application.properties* and set the docker internal host for Nexus IQ server URL
+* *iq.url=http://host.docker.internal:8070*
+```
+runapp-docker.bat (Windows)
+sh runapp-docker.sh (Linux)
+```
+
+### Other Settings
+
+#### Edit the *config/application.properties* file for additional filters for the data
+
+#### Time Period
+
+* iq.api.sm.period (default = month)
+* iq.api.sm.payload.timeperiod.first (default = 2020-01)
+* iq.api.sm.payload.timeperiod.last (optional, default = current period)
+
+#### Selecting Organisations and Applications
+The default is all organisations and all applications. 
 To select a specific list of organisations or applications to report on
-* Edit the *config/application.properties* file
-* For Organisations, add a list of comma-separated Organisation names to *iq.api.sm.payload.organisation.name=* 
-* For Applications, add a list of comma-separated Applications names to *iq.api.sm.payload.application.name=* 
+* For Organisations, add a list of comma-separated Organisation names to 
+* *iq.api.sm.payload.organisation.name* 
+* For Applications, add a list of comma-separated Applications names to 
+* *iq.api.sm.payload.application.name* 
 * If both are set, Organisations will take precedence
 
 
