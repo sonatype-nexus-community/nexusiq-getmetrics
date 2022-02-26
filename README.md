@@ -40,7 +40,7 @@ sh runapp.bat (Linux)
 ```
 
 ##### Option B (Run with docker image)
-* Additionally, edit the *config/application.properties* and set the docker internal host for Nexus IQ server URL
+* Additionally, edit the *config/application.properties* and set the docker internal host for the Nexus IQ server URL
 * *iq.url=http://host.docker.internal:8070*
 ```
 runapp-docker.bat (Windows)
@@ -53,9 +53,9 @@ sh runapp-docker.sh (Linux)
 
 #### Time Period
 
-* iq.api.sm.period (default = month)
-* iq.api.sm.payload.timeperiod.first (default = 2020-01)
-* iq.api.sm.payload.timeperiod.last (optional, default = current period)
+* *iq.api.sm.period* (default = month)
+* *iq.api.sm.payload.timeperiod.first* (default = 2020-01)
+* *iq.api.sm.payload.timeperiod.last* (optional, default = current period)
 
 #### Selecting Organisations and Applications
 The default is all organisations and all applications. 
