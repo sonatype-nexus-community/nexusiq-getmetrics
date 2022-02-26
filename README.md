@@ -66,6 +66,14 @@ To select a specific list of organisations or applications to report on
 * *iq.api.sm.payload.application.name* 
 * If both are set, Organisations will take precedence
 
+#### Addtional metrics
+By default, the application produces the *successmetrics.csv* file only. You may also produce metrics for additional reports. This includes:
+* Application Evaluations: *metrics.applicationsevaluations*
+* Policy Violations: *metrics.policyviolations*
+* Waivers: *metrics.waivers*
+* Firewall: *metrics.firewall*
+
+Edit the *config/application.properties* file set the relevant *metrics* property to *true* to produce any of these metrics files
 
 ## The Fine Print
 * We recommend running it for 4 weeks of data at a time and for sets of orgs instead of the full scope if you have a large dataset.
