@@ -75,6 +75,8 @@ By default, the application produces the *successmetrics.csv* file only. You may
 
 Edit the *config/application.properties* file set the relevant *metrics* property to *true* to produce any of these metrics files
 
+
+
 ## The Fine Print
 * We recommend running it for 4 weeks of data at a time and for sets of orgs instead of the full scope if you have a large dataset.
 * It is worth noting that this is NOT SUPPORTED by Sonatype, and is a contribution of ours to the open source community (read: you!)
