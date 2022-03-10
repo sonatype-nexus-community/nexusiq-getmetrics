@@ -1,5 +1,6 @@
 package org.sonatype.cs.getmetrics.reports;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.cs.getmetrics.service.CsvFileService;
@@ -19,13 +20,20 @@ public class QuarantinedComponents implements CsvFileService {
 
     @Override
     public void makeCsvFile(FileIoService f, JsonReader reader) {
-
+        throw new NotImplementedException();
     }
 
     @Override
     public void makeCsvFile(FileIoService f, JsonObject dataObject) {
         log.info("Making QuarantinedComponents report");
 
+        List<String[]> data = getQuarentinedComponentsFromData(dataObject);
+
+        f.writeCsvFile(FilenameInfo.quarantinedComponentsCsvFile,  data);
+
+    }
+
+    static List<String[]> getQuarentinedComponentsFromData(JsonObject dataObject) {
         List<String[]> data = new ArrayList<>();
         data.add(FilenameInfo.quarantinedComponentsFileHeader);
 
@@ -33,7 +41,7 @@ public class QuarantinedComponents implements CsvFileService {
 
         for (JsonObject result : results.getValuesAs(JsonObject.class)) {
             String displayName = result.getString("displayName");
-            displayName = displayName.replaceAll(" ", "");
+            displayName = displayName.replace(" ", "");
             String repository = result.getString("repository");
             String quarantineDate = result.getString("quarantineDate");
             String dateCleared = result.getString("dateCleared", "N/A");
@@ -57,8 +65,6 @@ public class QuarantinedComponents implements CsvFileService {
                 }
             }
         }
-
-        f.writeCsvFile(FilenameInfo.quarantinedComponentsCsvFile,  data);
-
+        return data;
     }
 }

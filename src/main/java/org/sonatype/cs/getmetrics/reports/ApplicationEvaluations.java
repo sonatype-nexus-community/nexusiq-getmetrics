@@ -1,5 +1,6 @@
 package org.sonatype.cs.getmetrics.reports;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonatype.cs.getmetrics.service.CsvFileService;
@@ -18,9 +19,14 @@ public class ApplicationEvaluations implements CsvFileService {
     public void makeCsvFile(FileIoService f, JsonReader reader) {
         log.info("Making ApplicationEvaluations report");
 
+        List<String[]> data = getApplicationInfoFromData(reader);
+
+        f.writeCsvFile(FilenameInfo.applicationEvaluationsCsvFile,  data);
+    }
+
+    static List<String[]> getApplicationInfoFromData(JsonReader reader) {
         List<String[]> data = new ArrayList<>();
         data.add(FilenameInfo.applicationEvaluationsFileHeader);
-
         JsonArray results = reader.readArray();
 
         for (JsonObject result : results.getValuesAs(JsonObject.class)) {
@@ -32,11 +38,11 @@ public class ApplicationEvaluations implements CsvFileService {
             String[] line = {applicationName, evaluationDate, stage};
             data.add(line);
         }
-
-        f.writeCsvFile(FilenameInfo.applicationEvaluationsCsvFile,  data);
+        return data;
     }
 
     @Override
     public void makeCsvFile(FileIoService f, JsonObject reader) {
+        throw new NotImplementedException();
     }
 }

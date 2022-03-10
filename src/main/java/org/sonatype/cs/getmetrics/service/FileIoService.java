@@ -31,22 +31,17 @@ public class FileIoService {
 
         String metricsFile = metricsDir + "/" + filename;
 
-        try {
-            BufferedWriter writer = Files.newBufferedWriter(Paths.get(metricsFile));
-
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(metricsFile))){
             for (String[] array : data) {
                 writer.write(String.join(",", Arrays.asList(array)));
                 writer.newLine();
             }
-
-            writer.close();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
 
-        log.info("Created file: " + metricsFile);
-        return;
+        log.info("Created file: {}", metricsFile);
     }
 
     public void initMetricsDir() throws IOException {
@@ -55,23 +50,19 @@ public class FileIoService {
         File metricsDirectory = new File(metricsDir);
 
         if (Files.exists(metricsDirPath) && metricsDirectory.list().length > 0){
-            //FileUtils.deleteDirectory(metricsDirectory);
             FileUtils.cleanDirectory(metricsDirectory);
         }
 
         if (Files.notExists(metricsDirPath)){
             Files.createDirectory(metricsDirPath);
         }
-
-        return;
     }
 
     public void writeSuccessMetricsFile(InputStream content) throws IOException {
 	    File outputFile = new File(metricsDir + File.separator + FilenameInfo.successMetricsCsvFile);
 	    java.nio.file.Files.copy(content, outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 	    IOUtils.closeQuietly(content);
-        log.info("Created file: " + outputFile.toPath());
-		return;
+        log.info("Created file: {}", outputFile.toPath());
 	}
 
 }
