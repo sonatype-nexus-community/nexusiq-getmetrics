@@ -53,35 +53,45 @@ public class NexusIqApiConnection {
         return createUrlConnection(urlString, encodedAuthString);
     }
 
-    public static String retrieveCsvBasedOnPayload(String user, String password, String url, String api, String endpoint, String apiPayload)
-			throws IOException, HttpException {
-		HttpURLConnection urlConnection = prepareHttpURLPostForCSV(user, password, url, api, endpoint);
+    public static String retrieveCsvBasedOnPayload(String user, String password, String url,
+            String api, String endpoint, String apiPayload) throws IOException, HttpException {
+        HttpURLConnection urlConnection =
+                prepareHttpURLPostForCSV(user, password, url, api, endpoint);
         return executeHttpURLPostForCSV(apiPayload, urlConnection);
-	}
+    }
 
     static String executeHttpURLPostForCSV(String apiPayload, HttpURLConnection urlConnection)
             throws IOException, HttpException {
-        try (OutputStream connectionOutputStream = urlConnection.getOutputStream()){
+        try (OutputStream connectionOutputStream = urlConnection.getOutputStream()) {
             byte[] payloadBytes = apiPayload.getBytes();
             connectionOutputStream.write(payloadBytes, 0, payloadBytes.length);
         }
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader((InputStream) urlConnection.getContent(), StandardCharsets.UTF_8));
+        if (urlConnection.getResponseCode() != 200) {
+            throw new HttpException(
+                    "Failed with HTTP error code : " + urlConnection.getResponseCode() + " ["
+                            + urlConnection.getResponseMessage() + "]");
+        }
+
+        BufferedReader bufferedReader =
+                new BufferedReader(new InputStreamReader((InputStream) urlConnection.getContent(),
+                        StandardCharsets.UTF_8));
         String response = bufferedReader.lines().collect(Collectors.joining("\n"));
         int statusCode = urlConnection.getResponseCode();
         urlConnection.disconnect();
 
-		if (statusCode != 200) {
-			throw new HttpException("Failed with HTTP error code : " + statusCode);
-		}
+        if (statusCode != 200) {
+            throw new HttpException("Failed with HTTP error code : " + statusCode + " ["
+                    + urlConnection.getResponseMessage() + "]");
+        }
         return response;
     }
 
-    static HttpURLConnection prepareHttpURLPostForCSV(String user, String password, String url, String api,
-            String endpoint) throws IOException, ProtocolException {
+    static HttpURLConnection prepareHttpURLPostForCSV(String user, String password, String url,
+            String api, String endpoint) throws IOException, ProtocolException {
         String metricsUrl = url + api + endpoint;
         HttpURLConnection urlConnection = createAuthorisedUrlConnection(user, password, metricsUrl);
         urlConnection.setRequestProperty("Accept", "text/csv");
-		urlConnection.setRequestProperty("Content-Type", "application/json");
+        urlConnection.setRequestProperty("Content-Type", "application/json");
         urlConnection.setRequestMethod("POST");
         urlConnection.setDoOutput(true);
         return urlConnection;

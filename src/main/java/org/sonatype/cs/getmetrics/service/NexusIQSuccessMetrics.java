@@ -67,8 +67,10 @@ public class NexusIQSuccessMetrics {
 	public void createSuccessMetricsCsvFile() throws IOException, JSONException, HttpException {
 		String apiPayload = getPayload();
 
-		String content = NexusIqApiConnection.retrieveCsvBasedOnPayload(iqUser, iqPwd, iqUrl, iqApi, iqReportsEndpoint, apiPayload);
-		fileIoService.writeSuccessMetricsFile(IOUtils.toInputStream(content, StandardCharsets.UTF_8));
+		String content = NexusIqApiConnection.retrieveCsvBasedOnPayload(iqUser, iqPwd, iqUrl, iqApi,
+				iqReportsEndpoint, apiPayload);
+		fileIoService
+				.writeSuccessMetricsFile(IOUtils.toInputStream(content, StandardCharsets.UTF_8));
 	}
 
 
@@ -171,7 +173,8 @@ public class NexusIQSuccessMetrics {
 		int statusCode = response.getStatusLine().getStatusCode();
 
 		if (statusCode != 200) {
-			throw new HttpException("Failed with HTTP error code : " + statusCode);
+			throw new HttpException("Failed with HTTP error code : " + statusCode + " ["
+					+ response.getStatusLine().getReasonPhrase() + "]");
 		}
 
 		return EntityUtils.toString(response.getEntity());
